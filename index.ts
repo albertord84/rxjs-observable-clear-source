@@ -6,7 +6,7 @@ import {
   ReplaySubject,
   concat,
 } from 'rxjs';
-import { switchMap, takeUntil } from 'rxjs/operators';
+import { switchMap, takeUntil, debounceTime } from 'rxjs/operators';
 
 let data$ = new Subject<any>();
 
@@ -16,6 +16,7 @@ let bs = data$.subscribe(buffer$);
 let buffObs = new ReplaySubject<ReplaySubject<any>>(1);
 
 buffObs.next(buffer$);
+//setTimeout(() => buffObs.next(buffer$), 5000);
 
 let repeater$ = concat(
   buffObs.pipe(
